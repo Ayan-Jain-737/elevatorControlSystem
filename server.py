@@ -1,10 +1,10 @@
+import eventlet
+eventlet.monkey_patch()
 import serial
 import threading
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 import time
-import eventlet
-eventlet.monkey_patch()
 import os
 
 app = Flask(__name__)
@@ -204,8 +204,15 @@ def serial_reader_thread():
 def index():
     return render_template('index.html')
 
+thread = None
+thread_lock = threading.Lock()
+
 @socketio.on('connect')
 def handle_connect():
+    global thread
+    with thread_lock:
+        if thread is None:
+            thread = socketio.start_background_task(target=serial_reader_thread)
     print("[WEB UART] Frontend Client Connected via WebSocket")
 
 @socketio.on('call_elevator')
@@ -255,8 +262,6 @@ print("\n=======================================================")
 print("   8051 ELEVATOR CONTROL SYSTEM - COM BRIDGE LAYER")
 print("=======================================================\n")
 connect_hardware()
-socketio.start_background_task(target=serial_reader_thread)
-
 
 if __name__ == '__main__':
 
