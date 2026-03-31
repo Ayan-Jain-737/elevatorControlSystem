@@ -248,15 +248,15 @@ def handle_door_close():
     else:
         if core_sim.state == 'DOOR_OPEN':
             core_sim.ticks = 60
-# --- Move these OUTSIDE the if block so Gunicorn runs them ---
+            
 print("\n=======================================================")
 print("   8051 ELEVATOR CONTROL SYSTEM - COM BRIDGE LAYER")
 print("=======================================================\n")
 connect_hardware()
 socketio.start_background_task(target=serial_reader_thread)
 
-# --- Keep this inside the if block for local testing only ---
+
 if __name__ == '__main__':
-    # Use the dynamic port assigned by Render (or 5000 locally)
+
     port = int(os.environ.get("PORT", 5000))
     socketio.run(app, host='0.0.0.0', port=port, debug=False)
