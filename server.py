@@ -3,6 +3,8 @@ import threading
 from flask import Flask, render_template
 from flask_socketio import SocketIO
 import time
+import eventlet
+eventlet.monkey_patch()
 import os
 
 app = Flask(__name__)
@@ -159,13 +161,13 @@ core_sim = Core8051Simulator()
 def connect_hardware():
     global ser
     print("[SYSTEM] Attempting physical UART connection to Keil Simulator on COM1...")
-    time.sleep(1)
+    socketio.sleep(1)
     try:
         ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=0.1)
         print(f"[SYSTEM] Hardware bridged successfully on {SERIAL_PORT}")
     except Exception:
         print("[SYSTEM] Hardware COM port unreachable. Bypassing physical serial...")
-        time.sleep(0.5)
+        socketio.sleep(0.5)
         if os.path.exists("elevator.asm"):
             with open("elevator.asm", "rt") as f:
                 lines = len(f.readlines())
@@ -196,7 +198,7 @@ def serial_reader_thread():
                 'Y': round(core_sim.get_continuous_y(), 3)
             }
             socketio.emit('elevator_status', status)
-        time.sleep(0.05)
+        socketio.sleep(0.05)
 
 @app.route('/')
 def index():

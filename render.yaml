@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: mpmc-elevator
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn -k eventlet -w 1 server:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: SERIAL_PORT
+        value: NONE
