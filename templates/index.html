@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8051 Elevator Control Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=5">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="environment-background">
+        <div class="presentation-wrapper">
+
+            <!-- First-Person Interior -->
+            <div class="lift-interior">
+                <div class="lift-doors-container">
+                    <div class="overhead-display">
+                        <span id="top-display">1 </span>
+                    </div>
+
+                    <div class="doors-frame" id="doors-frame">
+                        <div class="door-left" id="door-left">
+                            <div class="door-panel-detail"></div>
+                        </div>
+                        <div class="door-right" id="door-right">
+                            <div class="door-panel-detail"></div>
+                        </div>
+                        <div class="outside-wall" id="outside-wall">FLOOR 1</div>
+                    </div>
+                </div>
+
+                <div class="control-panel-container">
+                    <div class="control-panel">
+                        <div class="panel-display" id="panel-disp">1 </div>
+
+                        <div class="buttons-grid">
+                            <div class="floor-buttons-wrapper">
+                                {% for i in range(15, -1, -1) %}
+                                <button class="call-btn" data-floor="{{ i }}">
+                                    {% if i == 0 %}G{% else %}{{ i }}{% endif %}
+                                </button>
+                                {% endfor %}
+                            </div>
+                            <div class="door-controls">
+                                <button id="door-open-btn" class="door-btn" title="Open Door">&lt;|&gt;</button>
+                                <button id="door-close-btn" class="door-btn" title="Close Door">&gt;|&lt;</button>
+                            </div>
+                        </div>
+
+                        <div class="emergency-controls">
+                            <button id="emergency-btn" class="emergency-btn">STOP</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third-Person System Diagnostics -->
+            <div class="diagnostics-panel">
+                <h2 class="panel-title">System Analytics</h2>
+                <div class="conn-status-indicator" id="conn-status">Hardware Connected</div>
+
+                <div class="shaft-container">
+                    <div id="shaft-floors" class="shaft-floors">
+                        {% for i in range(15, -1, -1) %}
+                        <div class="floor-marker" style="bottom: {{ i * 40 }}px;">
+                            {% if i == 0 %}G{% else %}F{{ i }}{% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="cabin-external" class="cabin">
+                        <span id="cabin-disp">G</span>
+                    </div>
+                </div>
+
+                <div class="uart-log-widget">
+                    <h3>8051 UART RX Stream</h3>
+                    <div id="raw-log" class="raw-log">Waiting for standard serial data...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}?v=3"></script>
+</body>
+
+</html>

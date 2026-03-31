@@ -1,0 +1,437 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #374151;
+    /* Dark industrial setting */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.environment-background {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #4b5563, #1f2937);
+}
+
+.lift-interior {
+    width: 1000px;
+    height: 600px;
+    background-color: #d1d5db;
+    /* flat beige/grey inner walls */
+    border: 12px solid #111827;
+    /* dark frame */
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0px -100px 150px rgba(0, 0, 0, 0.1);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+/* -----------------------------
+   LEFT: ELEVATOR DOORS 
+------------------------------ */
+.lift-doors-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #e5e7eb;
+    border-right: 3px solid #9ca3af;
+    padding-top: 15px;
+    box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.overhead-display {
+    background: #000;
+    color: #ef4444;
+    /* classic red LED */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2.0rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 4px solid #111;
+    border-radius: 4px;
+    box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-align: center;
+    width: 120px;
+}
+
+.doors-frame {
+    width: 380px;
+    height: 480px;
+    background: #111;
+    /* Dark shaft outside */
+    border: 10px solid #6b7280;
+    /* Door metal frame */
+    border-bottom: 4px solid #374151;
+    /* Floor track */
+    border-top: 4px solid #374151;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* The physical wall outside the elevator */
+.outside-wall {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 4rem;
+    font-weight: bold;
+    font-family: Impact, sans-serif;
+    letter-spacing: 2px;
+    z-index: 1;
+    background: #27272a;
+    border-top: 60px solid #3f3f46;
+    /* Painted ceiling stripe */
+    border-bottom: 20px solid #52525b;
+    /* floor baseboard */
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9);
+}
+
+/* Massive sliding brushed steel doors */
+.door-left,
+.door-right {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, #9ca3af, #d1d5db, #9ca3af);
+    border: 1px solid #4b5563;
+    z-index: 2;
+    transition: transform 1s cubic-bezier(0.4, 0.0, 0.2, 1);
+    display: flex;
+    justify-content: center;
+}
+
+/* A slight indented ridge running down standard elevator doors */
+.door-panel-detail {
+    width: 2px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.5);
+}
+
+.door-left {
+    transform-origin: left;
+    box-shadow: inset 5px 0 10px rgba(0, 0, 0, 0.1), 2px 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.door-right {
+    transform-origin: right;
+    box-shadow: inset -5px 0 10px rgba(0, 0, 0, 0.1), -2px 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Door opening logic */
+.doors-frame.door-open .door-left {
+    transform: scaleX(0.05);
+    /* Slide neatly into the exact side frame */
+}
+
+.doors-frame.door-open .door-right {
+    transform: scaleX(0.05);
+}
+
+/* -----------------------------
+   RIGHT: CONTROL PANEL (COP)
+------------------------------ */
+.control-panel-container {
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #e5e7eb;
+}
+
+.control-panel {
+    width: 140px;
+    background: linear-gradient(180deg, #cbd5e1, #9ca3af);
+    /* Brushed steel plate */
+    border-left: 2px solid #f8fafc;
+    border-right: 2px solid #4b5563;
+    border-bottom: 2px solid #4b5563;
+    border-top: 2px solid #f8fafc;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), inset 1px 1px 0px rgba(255, 255, 255, 0.8);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+/* Smaller embedded LED screen */
+.panel-display {
+    background: #000;
+    color: #ef4444;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 2px;
+    margin-bottom: 30px;
+    border: 2px solid #222;
+    box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.4);
+    text-align: center;
+    width: 60px;
+    letter-spacing: 1px;
+}
+
+.buttons-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.floor-buttons-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.door-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+
+.door-btn {
+    width: 48%;
+    height: 35px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    border: 3px solid #94a3b8;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 1);
+    font-size: 0.9rem;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #1e293b;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s;
+    outline: none;
+}
+
+.door-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 1);
+}
+
+/* Real-world plastic/metal circular buttons */
+.call-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    border: 3px solid #94a3b8;
+    /* Silver rim */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 1);
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #1e293b;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s;
+    outline: none;
+}
+
+.call-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 1);
+}
+
+.call-btn.active-call {
+    /* Classic incandescent yellow/orange button light */
+    background: #fef08a;
+    /* lit plastic */
+    border-color: #94a3b8;
+    color: #ea580c;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4), inset 0 0 10px #fb923c;
+}
+
+.emergency-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ef4444;
+    /* Standard red stop button */
+    border: 4px solid #991b1b;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    transition: all 0.1s;
+}
+
+.emergency-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+}
+
+.emergency-mode-active {
+    background: #ff0000;
+    box-shadow: 0 0 15px red;
+    animation: alarm-flash 0.5s infinite alternate;
+}
+
+@keyframes alarm-flash {
+    0% {
+        background: #ff0000;
+    }
+
+    100% {
+        background: #7f1d1d;
+    }
+}
+
+.presentation-wrapper {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.diagnostics-panel {
+    width: 250px;
+    height: 600px;
+    background: #1f2937;
+    border-radius: 8px;
+    border: 12px solid #111827;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.panel-title {
+    color: #e5e7eb;
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.conn-status-indicator {
+    background: #047857;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px rgba(4, 120, 87, 0.5);
+}
+
+.conn-status-indicator.disconnected {
+    background: #b91c1c;
+    box-shadow: 0 0 10px rgba(185, 28, 28, 0.5);
+}
+
+.shaft-container {
+    width: 120px;
+    height: 360px;
+    background: #111827;
+    border: 4px solid #374151;
+    position: relative;
+    border-bottom: 8px solid #374151;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.shaft-floors {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 640px;
+    transition: bottom 0.1s linear;
+}
+
+.floor-marker {
+    position: absolute;
+    width: 100%;
+    border-top: 2px dashed #4b5563;
+    padding-left: 5px;
+    font-size: 10px;
+    color: #9ca3af;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.cabin {
+    position: absolute;
+    left: 30px;
+    width: 50px;
+    height: 40px;
+    background: #60a5fa;
+    /* Blue default moving */
+    bottom: 0px;
+    transition: bottom 0.1s linear;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+}
+
+.cabin.door-open {
+    background: #34d399;
+    /* Green when doors are open correctly */
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+}
+
+.cabin.emergency-mode {
+    background: #ef4444;
+    /* Red intercept */
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+}
+
+.uart-log-widget {
+    width: 90%;
+}
+
+.uart-log-widget h3 {
+    margin: 0 0 5px 0;
+    font-size: 0.8rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+}
+
+.raw-log {
+    background: #000;
+    color: #32cd32;
+    /* Hacker green */
+    font-family: 'Courier New', monospace;
+    padding: 10px;
+    border-radius: 4px;
+    border: 2px solid #333;
+    font-size: 0.8rem;
+    word-wrap: break-word;
+    box-shadow: inset 0 0 10px rgba(50, 205, 50, 0.2);
+}

@@ -1,0 +1,3 @@
+".\Objects\STARTUP.obj" 
+TO ".\Objects\elevator" 
+PRINT(".\Listings\elevator.m51") RAMSIZE(256) 
